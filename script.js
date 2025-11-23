@@ -7,16 +7,46 @@ const playBack=document.querySelector('input[name="playbackRate"]');
 const skipButton=document.querySelectorAll('.skip');
 
 function togglePlay(){
-	video.paused ? video.play() : video.pause();
+	if(video.paused){
+		video.play();
+	}else{
+		video.pause();
+	}
 }
-function updateButton(){
-	toggle.textContent=video ? '►': '❚❚';
-}
-toggle.addEventListener('click',togglePlay);
-video.addEventListener('click',togglePlay);
-video.addEventListener('play',updateButton);
-video.addEventListener('pause',updateButton);
 
-video.addEventListener('timeupdate',()=>{
-	
-});
+function updateButton(){
+	const icon=video.pause ? "►" : "❚ ❚";
+	toggle.textContent=icon;
+}
+
+function handleProgress(){
+	const percent=(video.currentTime/video.duration)*100;
+	progressBar.style.width=percent+'%';
+}
+
+function scrub(e){
+	const scrubTime=(e.offsetX/progress.offsetWidth)*video.duration;
+	video.currentTime=scrubTime;
+}
+
+function handleVolume(){
+	video.volume=volume.value;
+}
+
+function handlePlaybackRate(){
+	video.playbackRate=playbackRate.value;
+}
+function skip(){
+	video.currentTime+=parseFloat(this.dataset.skip);
+}
+
+video.addEventListener("click",togglePlay);
+video.addEventListener("play",updateButton);
+video.addEventListener("pause",updateButton);
+video.addEventListener("timeupdate",handleProgress);
+
+toggle.addEventListener("click",togglePlay);
+skipButtons.forEach(button=> button.addEventListener('click',togglePlay));
+volume.addEventListener('input',handleVolume);
+progress.addEventListener('input',handlePlaybackRate);
+progress.addEventListener("click",scrub);
