@@ -4,7 +4,7 @@ const progress=document.querySelector(".progress");
 const progressBar=document.querySelector(".progress__filled");
 const volume=document.querySelector('input[name="volume"]');
 const playBack=document.querySelector('input[name="playbackRate"]');
-const skipButton=document.querySelectorAll('.skip');
+const skipButtons=document.querySelectorAll('.skip');
 
 function togglePlay(){
 	if(video.paused){
@@ -46,7 +46,7 @@ video.addEventListener("pause",updateButton);
 video.addEventListener("timeupdate",handleProgress);
 
 toggle.addEventListener("click",togglePlay);
-skipButtons.forEach(button=> button.addEventListener('click',togglePlay));
+skipButton.forEach(button=> button.addEventListener('click',.skip));
 volume.addEventListener('input',handleVolume);
 progress.addEventListener('input',handlePlaybackRate);
 progress.addEventListener("click",scrub);
